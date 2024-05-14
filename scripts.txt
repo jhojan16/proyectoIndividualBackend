@@ -1,0 +1,63 @@
+CREATE TABLE usuarios (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user VARCHAR(255) NOT NULL,
+password VARCHAR(255) NOT NULL,
+userType ENUM('admin', 'cliente') NOT NULL
+);
+
+CREATE TABLE datoshumedad (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    usuarioId INT,
+    idnodo INT(11),
+    value DOUBLE,
+    fechahora DATETIME,
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuarioId) REFERENCES usuarios(id)
+);
+
+CREATE TABLE datosluz (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    usuarioId INT,
+    idnodo INT(11),
+    value DOUBLE,
+    fechahora DATETIME,
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuarioId) REFERENCES usuarios(id)
+);
+
+CREATE TABLE datosEstadoHumedad (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    usuarioId INT,
+    idnodo INT,
+    estado VARCHAR(30),
+    fechahora DATETIME,
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuarioId) REFERENCES usuarios(id)
+);
+
+CREATE TABLE datosEstadoLuz (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    usuarioId INT,
+    idnodo INT,
+    estado VARCHAR(30),
+    fechahora DATETIME,
+    PRIMARY KEY (id),
+    FOREIGN KEY (usuarioId) REFERENCES usuarios(id)
+);
+
+
+INSERT INTO datoshumedad (idnodo, usuarioId, value, fechahora) VALUES (2, 2, 10, NOW());
+
+export const AuthService = {
+    baseUrl: import.meta.env.VITE_BACK_USER,
+    endpoints: {
+        login: '/login',
+        admin: '/datos',
+        adminNodo: '/datos/:idnodo',
+        cliente: '/info',
+        clienteHumedad: '/infohumedad',
+        clienteLuz: '/infoluz',
+    },
+};
+
+
